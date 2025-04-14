@@ -2,9 +2,9 @@
 
 **TKN FANTA Running** is a 2D endless runner game inspired by the classic Chrome Dino game. Built using **Java** and **Object-Oriented Programming (OOP)** principles, the game challenges players to jump over obstacles and survive as long as possible while the speed increases.
 
-This project was developed as part of my internship program in TKN FANTA. It was made to be played during an event that was going to be held by the company. This was during the 2024 Indonesia president elections.
+This project was developed as part of my internship program at TKN FANTA. It was made to be played during an event that was going to be held by the company. This was during the 2024 Indonesia presidential elections.
 
-The theme being Indonesias, it uses the (current) president and vice president of Indonesia as characters, and a background filled with Indonesian famous landscapes to promote both the election and Indonesia as a country.
+The theme is Indonesia. It uses the (current) president and vice president of Indonesia as characters and a background filled with famous Indonesian landscapes to promote both the election and Indonesia as a country.
 
 ---
 
@@ -30,7 +30,7 @@ The theme being Indonesias, it uses the (current) president and vice president o
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/yona-runner.git
+   git clone https://github.com/nunohs/nunohs-tknfanta.git
 ## Screenshots
 ![Screenshot of Home Page](./src/pra1.png)
 ![Screenshot of Gameplay](./src/pra2.png)
