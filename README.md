@@ -32,5 +32,5 @@ The theme being Indonesias, it uses the (current) president and vice president o
    ```bash
    git clone https://github.com/yourusername/yona-runner.git
 ## Screenshots
-
+![Screenshot of Home Page](./src/pra1.png)
 
