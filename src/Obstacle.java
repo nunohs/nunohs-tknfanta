@@ -4,16 +4,34 @@ import bagel.*;
  * Class for obstacles, calculating if it collides with the character
  */
 public class Obstacle {
+    // Collision forgiveness factor - smaller number means more forgiving (0.8 = 80% of original hitbox)
+    private static final double COLLISION_FORGIVENESS = 0.75;
+    
+    // Standard resource paths with consistent naming
+    private static final String RESOURCE_PATH = "res/";
+    
     private final Image image;
     private final int y=Window.getHeight()/2+90;
     private int x = Window.getWidth();
     private boolean active;
     private int obstacleWidth;
     private int obstacleHeight;
+    private final ResourceManager resourceManager = ResourceManager.getInstance();
 
     public Obstacle(String dir){
-        image = new Image("res/"+dir+".png");
-        this.active=true;
+        // Use ResourceManager to load image with error handling
+        Image img = null;
+        try {
+            img = resourceManager.getImage(RESOURCE_PATH + dir + ".png");
+            if (img == null) {
+                System.err.println("Warning: Failed to load obstacle image: " + dir);
+            }
+        } catch (Exception e) {
+            System.err.println("Error loading obstacle image: " + e.getMessage());
+        }
+        
+        this.image = img;
+        this.active = true;
 
         switch (dir) {
             case "asset_obstacle 1":
@@ -39,6 +57,11 @@ public class Obstacle {
             case "asset_obstacle 6":
                 this.obstacleWidth = 90;
                 this.obstacleHeight = 60;
+                break;
+            default:
+                this.obstacleWidth = 50;
+                this.obstacleHeight = 50;
+                System.err.println("Warning: Unknown obstacle type: " + dir);
                 break;
         }
     }
@@ -71,41 +94,59 @@ public class Obstacle {
         active = false;
     }
 
-    public int update( int speed) {
-        if (active && x>0) {
-            x -= speed;
-            image.draw(x,y);
+    /**
+     * Check if the character collides with this obstacle
+     * Uses a forgiving hitbox for better gameplay experience
+     */
+    public boolean checkCollision(int charX, int charY, int charWidth, int charHeight,
+                                int obstacleX, int obstacleY, int obstacleWidth, int obstacleHeight) {
+        if (!active || image == null) {
+            return false;
+        }
+
+        // Calculate hitbox with forgiveness factor
+        double hitboxWidth = obstacleWidth * COLLISION_FORGIVENESS;
+        double hitboxHeight = obstacleHeight * COLLISION_FORGIVENESS;
+        
+        // Calculate hitbox center
+        double hitboxCenterX = obstacleX;
+        double hitboxCenterY = obstacleY;
+        
+        // Calculate character center
+        double charCenterX = charX;
+        double charCenterY = charY;
+        
+        // Calculate half-widths and half-heights
+        double hitboxHalfWidth = hitboxWidth / 2;
+        double hitboxHalfHeight = hitboxHeight / 2;
+        double charHalfWidth = charWidth / 2;
+        double charHalfHeight = charHeight / 2;
+        
+        // Check for collision using center points and half-dimensions
+        boolean collisionX = Math.abs(charCenterX - hitboxCenterX) < (charHalfWidth + hitboxHalfWidth);
+        boolean collisionY = Math.abs(charCenterY - hitboxCenterY) < (charHalfHeight + hitboxHalfHeight);
+        
+        return collisionX && collisionY;
+    }
+
+    public int update(int speed) {
+        if (!active || image == null) {
             return 0;
         }
-        else {
+        
+        if (x > 0) {
+            x -= speed;
+            try {
+                image.draw(x, y);
+            } catch (Exception e) {
+                System.err.println("Error drawing obstacle: " + e.getMessage());
+                deactivate();
+                return 0;
+            }
+            return 0;
+        } else {
             deactivate();
             return 10;
         }
-    }
-    /**
-     * Checks whether character collides with the obstacle
-     */
-    public boolean checkCollision(int charXCoordinate, int charYCoordinate,
-                                   int charWidth, int charHeight,
-                                   int obstacleXCoordinate, int obstacleYCoordinate,
-                                   int obstacleWidth, int obstacleHeight) {
-        int charHalfWidth = charWidth / 2;
-        int charHalfHeight = charHeight / 2;
-        int obstacleHalfWidth = obstacleWidth / 2;
-        int obstacleHalfHeight = obstacleHeight / 2;
-
-        // Calculate the overlap along the x-axis
-        int overlapX = Math.max(0, Math.min(charXCoordinate + charHalfWidth,obstacleXCoordinate + obstacleHalfWidth)
-                - Math.max(charXCoordinate- charHalfWidth, obstacleXCoordinate - obstacleHalfWidth));
-
-        // Calculate the overlap along the y-axis
-        int overlapY = Math.max(0, Math.min(charYCoordinate + charHalfHeight, obstacleYCoordinate + obstacleHalfHeight)
-                - Math.max(charYCoordinate - charHalfHeight, obstacleYCoordinate - obstacleHalfHeight));
-
-        // Calculate the area of overlap (amount of pixels in collision)
-        int collisionPixels = overlapX * overlapY;
-
-        // Check if there is a collision (non-zero overlap)
-        return collisionPixels > 0;
     }
 }
