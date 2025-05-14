@@ -228,7 +228,8 @@ public class TKNFanta extends AbstractGame {
      * Updates the start screen
      */
     private void updateStartScreen(Input input) {
-            // starting screen
+        audioManager.playHomeMusic();
+        // starting screen
         if (scoreFont != null) {
             scoreFont.drawString("SCORE 0000" , (double)Window.getWidth()/2,
                     (double)Window.getHeight()/2-200);
@@ -267,12 +268,12 @@ public class TKNFanta extends AbstractGame {
         if((input.wasPressed(Keys.P)) || (input.wasPressed(MouseButtons.LEFT) && userClicks(input,"PRABOWO"))) {
             currentState = GameState.GAMEPLAY;
             initializeGame("prabowo");
-            audioManager.playGameplayMusic();
+            audioManager.playHomeMusic();
         } else if ((input.wasPressed(Keys.G)) || (input.wasPressed(MouseButtons.LEFT) &&
                 userClicks(input,"GIBRAN"))) {
             currentState = GameState.GAMEPLAY;
             initializeGame("gibran");
-            audioManager.playGameplayMusic();
+            audioManager.playHomeMusic();
             }
     }
     
@@ -281,19 +282,16 @@ public class TKNFanta extends AbstractGame {
      */
     private void updateGameplay(Input input) {
         if (currentGame != null) {
-            // gameplay
             currentGame.update(input);
-            
             if (currentGame.isFinished()) {
                 currentState = GameState.GAME_OVER;
                 if(currentGame.getScore() > highScore) {
                     highScore = currentGame.getScore();
-                    setHighScore(highScore); // Save high score immediately
+                    setHighScore(highScore);
                 }
                 audioManager.playHomeMusic();
             }
         } else {
-            // Handle error case if game creation failed
             System.err.println("Error: Current game is null");
             currentState = GameState.START_SCREEN;
             audioManager.playHomeMusic();

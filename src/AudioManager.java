@@ -10,16 +10,13 @@ public class AudioManager {
     
     // Audio file paths
     private static final String HOME_MUSIC_PATH = "res/609209__kjartan_abel__crossed-path-a-lo-fi-instrumental-hip-hop-track.wav";
-    private static final String GAMEPLAY_MUSIC_PATH = "res/798293__kontraa__mario-kart-electro-pop-instrumental.mp3";
     private static final String BOOST_SOUND_PATH = "res/585803__colorscrimsontears__power-boost.wav";
     
     // Audio clips
     private Clip homeMusic;
-    private Clip gameplayMusic;
     private Clip boostSound;
     
     private boolean isHomeMusicPlaying = false;
-    private boolean isGameplayMusicPlaying = false;
     
     private AudioManager() {
         initializeAudio();
@@ -40,12 +37,6 @@ public class AudioManager {
             homeMusic.open(homeStream);
             homeMusic.loop(Clip.LOOP_CONTINUOUSLY);
             
-            // Initialize gameplay music
-            AudioInputStream gameplayStream = AudioSystem.getAudioInputStream(new File(GAMEPLAY_MUSIC_PATH));
-            gameplayMusic = AudioSystem.getClip();
-            gameplayMusic.open(gameplayStream);
-            gameplayMusic.loop(Clip.LOOP_CONTINUOUSLY);
-            
             // Initialize boost sound
             AudioInputStream boostStream = AudioSystem.getAudioInputStream(new File(BOOST_SOUND_PATH));
             boostSound = AudioSystem.getClip();
@@ -61,22 +52,9 @@ public class AudioManager {
      */
     public void playHomeMusic() {
         if (homeMusic != null && !isHomeMusicPlaying) {
-            stopGameplayMusic();
             homeMusic.setFramePosition(0);
             homeMusic.start();
             isHomeMusicPlaying = true;
-        }
-    }
-    
-    /**
-     * Start playing gameplay music
-     */
-    public void playGameplayMusic() {
-        if (gameplayMusic != null && !isGameplayMusicPlaying) {
-            stopHomeMusic();
-            gameplayMusic.setFramePosition(0);
-            gameplayMusic.start();
-            isGameplayMusicPlaying = true;
         }
     }
     
@@ -101,21 +79,10 @@ public class AudioManager {
     }
     
     /**
-     * Stop gameplay music
-     */
-    public void stopGameplayMusic() {
-        if (gameplayMusic != null && isGameplayMusicPlaying) {
-            gameplayMusic.stop();
-            isGameplayMusicPlaying = false;
-        }
-    }
-    
-    /**
      * Stop all music
      */
     public void stopAllMusic() {
         stopHomeMusic();
-        stopGameplayMusic();
     }
     
     /**
@@ -124,7 +91,6 @@ public class AudioManager {
     public void cleanup() {
         stopAllMusic();
         if (homeMusic != null) homeMusic.close();
-        if (gameplayMusic != null) gameplayMusic.close();
         if (boostSound != null) boostSound.close();
     }
 } 

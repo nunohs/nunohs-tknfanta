@@ -14,7 +14,7 @@ public class ResourceManager {
     
     private static final int MAX_CACHE_SIZE = 50;
     private static final String FALLBACK_IMAGE_PATH = "res/asset_button 1.png";
-    private static final String FALLBACK_FONT_NAME = "Arial";
+    private static final String FALLBACK_FONT_PATH = "res/FSO8BITR.TTF";
     
     private final Map<String, Image> imageCache;
     private final Map<String, Font> fontCache;
@@ -46,7 +46,7 @@ public class ResourceManager {
         try {
             // Load fallback resources
             fallbackImage = new Image(FALLBACK_IMAGE_PATH);
-            fallbackFont = new Font(FALLBACK_FONT_NAME, 24);
+            fallbackFont = new Font(FALLBACK_FONT_PATH, 24);
             
             if (fallbackImage == null || fallbackFont == null) {
                 System.err.println("Warning: Failed to load fallback resources");
