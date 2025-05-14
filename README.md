@@ -31,7 +31,20 @@ The theme is Indonesia. It uses the (current) president and vice president of In
 1. **Clone the repository**
    ```bash
    git clone https://github.com/nunohs/nunohs-tknfanta.git
+
 ## Screenshots
-![Screenshot of Home Page](./src/pra1.png)
-![Screenshot of Gameplay](./src/pra2.png)
+![Screenshot of Home Page](res/pra1.png)
+![Screenshot of Gameplay](res/pra2.png)
+
+## Credits
+
+### Music
+- **Background Music**: "Crossed Path" by Kjartan Abel
+  - Visit [kjartan-abel.com/library](https://kjartan-abel.com/library) to find free music for your next project
+  - Licensed under: CC BY-SA 4.0 Attribution-ShareAlike 4.0 International
+
+### Sound Effects
+- **Boost Sound**: "Power Boost" by colorscrimsontears
+  - From Freesound.org
+  - Licensed under: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication
 
