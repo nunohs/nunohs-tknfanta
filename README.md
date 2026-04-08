@@ -22,7 +22,6 @@ The theme is Indonesia. It uses the (current) president and vice president of In
 - **Object-Oriented Programming (OOP)**
 - **2D Animation**
 - **Game Loop Mechanics**
-- **Simple GUI with Java Swing/JavaFX (depending on your setup)**
 
 ---
 
